@@ -9,6 +9,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules;
 
 class RegisteredUserController extends Controller
@@ -42,6 +43,7 @@ class RegisteredUserController extends Controller
         $user = User::create([
             'username' => $request->username,
             'email' => $request->email,
+            'picture' => Storage::url('avatars/default250.svg'),
             'password' => Hash::make($request->password),
         ]);
 

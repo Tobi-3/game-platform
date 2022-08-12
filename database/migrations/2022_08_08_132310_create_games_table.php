@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('games', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->uniqe();
+            $table->string('name')->unique();
             $table->string('path')->unique();
             $table->string('creator');
 

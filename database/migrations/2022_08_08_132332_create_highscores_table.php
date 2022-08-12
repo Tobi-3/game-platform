@@ -14,17 +14,26 @@ return new class extends Migration
     public function up()
     {
         Schema::create('highscores', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('username')
-                  ->constrained('users')
-                  ->cascadeOnUpdate()
-                  ->cascadeOnDelete();
-            $table->foreignId('game')
-                  ->constrained('games')
-                  ->cascadeOnUpdate()
-                  ->cascadeOnDelete();
+
+            $table->string('username');
+            $table->foreign('username')
+            ->references('username')
+            ->on('users')
+            ->cascadeOnUpdate()
+            ->cascadeOnDelete();
+            
+            $table->string('game');
+            $table->foreign('game')
+            ->references('name')
+            ->on('games')
+            ->cascadeOnUpdate()
+            ->cascadeOnDelete();
+            
             $table->integer('score');
+            
             $table->timestamps();
+
+            $table->unique(['username', 'game']);
         });
     }
 

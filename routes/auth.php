@@ -56,5 +56,17 @@ Route::middleware('auth')->group(function () {
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
                 ->name('logout');
                 
-    Route::get('user-profile', [UserProfile::class, 'userProfile'])->name('user-profile');
+    Route::get('user-profile', [UserProfile::class, 'getDataForProfile'])
+                ->name('user.profile');
+
+    Route::post('change-picture', [UserProfile::class, 'changePicture'])
+                 ->name('change.picture');
+    
+    Route::post('change-password', [UserProfile::class, 'changePassword']);
+    Route::post('change-username', [UserProfile::class, 'changeUsername']);
+    Route::post(('delete-profile'), [UserProfile::class, 'deleteProfile']);
+    
+    Route::view('change-password', 'auth.change-password')->name('change.password');
+    Route::view('change-username', 'auth.change-username')->name('change.username');
+    Route::view(('delete-profile'), 'auth.delete-profile')->name('delete.profile');
 });

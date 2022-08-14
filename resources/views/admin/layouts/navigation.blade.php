@@ -12,7 +12,7 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('adminroute.dashboard')" :active="request()->routeIs('admin.dashboard')">
+                    <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
@@ -44,6 +44,16 @@
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
                         </form>
+                        
+                        <form method="GET" action="{{ route('admin.change.password') }}">
+                            @csrf
+
+                            <x-dropdown-link :href="route('admin.change.password')"
+                                    onclick="event.preventDefault();
+                                                this.closest('form').submit();">
+                                {{ __('Change Password') }}
+                            </x-dropdown-link>
+                        </form>
                     </x-slot>
                 </x-dropdown>
             </div>
@@ -72,7 +82,7 @@
         <div class="pt-4 pb-1 border-t border-gray-200">
             <div class="px-4">
                 <div class="font-medium text-base text-gray-800">{{ Auth::guard('admin')->user()->name }}</div>
-                <div class="font-medium text-sm text-gray-500">{{ Auth::guard('admin').user()->email }}</div>
+                <div class="font-medium text-sm text-gray-500">{{ Auth::guard('admin')->user()->email }}</div>
             </div>
 
             <div class="mt-3 space-y-1">
@@ -85,6 +95,16 @@
                                         this.closest('form').submit();">
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
+                </form>
+
+                <form method="GET" action="{{ route('admin.change.password') }}">
+                    @csrf
+
+                    <x-dropdown-link :href="route('admin.change.password')"
+                            onclick="event.preventDefault();
+                                        this.closest('form').submit();">
+                        {{ __('Change Password') }}
+                    </x-dropdown-link>
                 </form>
             </div>
         </div>

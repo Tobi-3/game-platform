@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminAuth\AdminPageController;
 use App\Http\Controllers\AdminAuth\AuthenticatedSessionController;
 use App\Http\Controllers\AdminAuth\ConfirmablePasswordController;
 use App\Http\Controllers\AdminAuth\EmailVerificationNotificationController;
@@ -34,23 +35,41 @@ Route::name('admin.')->prefix('admin')->middleware('guest:admin')->group(functio
         ->name('password.update');
 });
 
-Route::name('admin')->prefix('admin')->middleware('auth:admin')->group(function () {
+Route::name('admin.')->prefix('admin')->middleware('auth:admin')->group(function () {
     Route::get('verify-email', [EmailVerificationPromptController::class, '__invoke'])
-        ->name('verification.notice');
+           ->name('verification.notice');
 
     Route::get('verify-email/{id}/{hash}', [VerifyEmailController::class, '__invoke'])
-        ->middleware(['signed', 'throttle:6,1'])
-        ->name('verification.verify');
+           ->middleware(['signed', 'throttle:6,1'])
+           ->name('verification.verify');
 
     Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
-        ->middleware('throttle:6,1')
-        ->name('verification.send');
+           ->middleware('throttle:6,1')
+           ->name('verification.send');
 
     Route::get('confirm-password', [ConfirmablePasswordController::class, 'show'])
-        ->name('password.confirm');
+           ->name('password.confirm');
 
     Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
-        ->name('logout');
+           ->name('logout');
+
+    Route::post('upload-game', [AdminPageController::class, 'handleGameUpload'])
+           ->name('upload.game');
+
+    Route::post('delete-profile', [AdminPageController::class, 'deleteProfile'])
+           ->name('delete.profile');
+
+    Route::post('delete-game', [AdminPageController::class, 'deleteGame'])
+           ->name('delete.game');
+
+
+    Route::view('change-password', 'admin.auth.change-password')
+           ->name('change.password');
+
+    Route::post('change-password', [AdminPageController::class, 'changePassword']);
+
+
+       
 });

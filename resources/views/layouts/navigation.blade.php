@@ -13,7 +13,7 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     @if (Auth::check())
-                    <x-nav-link :href="route('user-profile')" :active="request()->routeIs('user-profile')">
+                    <x-nav-link :href="route('user.profile')" :active="request()->routeIs('user-profile')">
                         {{ __('Profile') }}
                     </x-nav-link>
                     @endif
@@ -34,13 +34,19 @@
                 <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">  
                     <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
                         @auth
+                        
+                        
+
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
 
-                            <button :href="route('logout')" onclick="event.preventDefault();
+                            <x-button>
+                                {{ __('Log Out') }}
+                            </x-button>
+                            {{-- <x-button onclick="event.preventDefault();
                                                     this.closest('form').submit();">
                                 {{ __('Log Out') }}
-                            </button>
+                            </x-button> --}}
                         </form>
                         @else
                         <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
@@ -81,9 +87,19 @@
                 {{ __('Main Page') }}
             </x-responsive-nav-link>
             
-            <x-responsive-nav-link :href="route('user-profile')" :active="request()->routeIs('user-profile')">
+            <x-responsive-nav-link :href="route('user.profile')" :active="request()->routeIs('user-profile')">
                 {{ __('Profile') }}
             </x-responsive-nav-link>
+            
+            <x-responsive-nav-link :href="route('delete.profile')" :active="request()->routeIs('delete.profile')">
+                {{ __('Delete Profile') }}
+            </x-responsive-nav-link>
+            
+            <x-responsive-nav-link :href="route('change.password')" :active="request()->routeIs('change.password')">
+                {{ __('Change Password') }}
+            </x-responsive-nav-link>
+
+
         </div>
 
        

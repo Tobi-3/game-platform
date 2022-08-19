@@ -6,7 +6,7 @@
             </a>
         </x-slot>
 
-        <x-auth-session-status class="mb-4" :status="session('success')" />
+        <x-auth-session-status class="mb-4" :status="session('changed_password')" />
 
 
         <!-- Validation Errors -->

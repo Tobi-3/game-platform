@@ -7,6 +7,11 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
+        <!--  Styles for games  -->
+        @if (Route::is('canvas'))
+            <link id="style" rel="stylesheet" href="{{$game->path}}/css/style.css">
+        @endif
+
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap">
 

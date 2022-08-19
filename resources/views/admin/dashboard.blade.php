@@ -39,8 +39,8 @@
                 </div>
 
                 <div class=" p-6 bg-white border-b border-gray-200">
+                    <div>Users</div>    
                     <ul>
-                        <h5>Users</h5>    
                         @foreach ($usernames as $user)
                             <li> {{ $user->username }}</li>    
                         @endforeach
@@ -62,8 +62,8 @@
                 </div>
 
                 <div class=" p-6 bg-white border-b border-gray-200">
+                    <div>Games</div >    
                     <ul>
-                        <h5>Games</h5>    
                         @foreach ($games as $game)
                         <li> {{ $game->name }}</li>    
                         @endforeach

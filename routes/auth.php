@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\GameController;
 use App\Http\Controllers\UserProfile;
 
 use Illuminate\Support\Facades\Route;
@@ -69,4 +70,7 @@ Route::middleware('auth')->group(function () {
     Route::view('change-password', 'auth.change-password')->name('change.password');
     Route::view('change-username', 'auth.change-username')->name('change.username');
     Route::view(('delete-profile'), 'auth.delete-profile')->name('delete.profile');
+
+
+    Route::post('update-highscore', [GameController::class, 'updateHighscore']);
 });

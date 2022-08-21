@@ -16,11 +16,9 @@ return new class extends Migration
     {   
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            // $table->string('username',30)->primary();
             $table->string('username',30)->unique();
             $table->string('email')->unique();
             $table->string('picture')->default(Storage::url('avatars/default250.svg'));
-            // $table->string('picture')->unique()->default(addslashes(storage_path()) . '/app/avatars/default250.svg');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

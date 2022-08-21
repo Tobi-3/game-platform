@@ -6,14 +6,14 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-10 w-auto fill-current text-gray-600" />
+                        <img src="{{ asset('/storage/logos') }}/logo_small.png" class="block h-10 w-auto fill-current text-gray-600" alt="go to dashboard">
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     @if (Auth::check())
-                    <x-nav-link :href="route('user.profile')" :active="request()->routeIs('user-profile')">
+                    <x-nav-link :href="route('user.profile')" :active="request()->routeIs('user.profile')">
                         {{ __('Profile') }}
                     </x-nav-link>
                     @endif
@@ -48,10 +48,7 @@
                                 {{ __('Log Out') }}
                             </x-button> --}}
                         </form>
-                        @else
-                        <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
-                        <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
-                        
+                        @else                        
                         @endauth
                     </div>
                 </div>
@@ -71,7 +68,7 @@
                 </button>
             </div>
             @else
-                <div>
+                <div class=" top-0 right-0 px-6 py-4 sm:block">
                     <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
                     <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
                 </div>

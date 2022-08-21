@@ -15,15 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/', 'welcome');
-
-Route::get('/dashboard', [GameController::class, 'gameNames'])
-             ->middleware('auth')
-            //  ->middleware(['auth', 'verified'])
-             ->name('dashboard');
+Route::get('/', function(){return redirect('dashboard');});
 
 Route::get('/admin/dashboard', [AdminPageController::class, 'adminPageData'])
-             ->middleware(['auth:admin'])
+             ->middleware('auth:admin')
              ->name('admin.dashboard');
 
 Route::get('canvas/{game}', [GameController::class, 'playGame'])->name('canvas');

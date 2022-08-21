@@ -9,11 +9,13 @@ use Illuminate\Support\Facades\Auth;
 
 class GameController extends Controller
 {
-    // get all game names
+    /**
+     * gets all game names and passes them to the game overview view
+     */
     public function gameNames()
     {
 
-        $games = DB::table('games')->get();
+        $games = DB::table('games')->orderBy('name')->get();
        
         return view('dashboard', ['games' => $games]);
     }
@@ -36,6 +38,10 @@ class GameController extends Controller
         ]);
     }
      
+
+    /**
+     * updates the score of a game if the new score is higher
+     */
     public function updateHighscore(Request $request)
     {   
         
@@ -58,29 +64,4 @@ class GameController extends Controller
         
     }
 }
-
-    // [0] => object(Illuminate\Support\Collection) (2) { 
-    //     ["items":protected]=> array(1) { 
-    //         [0]=> object(stdClass) (5) 
-    //             { ["username"] => string(6) "tobsel" 
-    //               ["game"]=> string(6) "Tetris" 
-    //               ["score"]=> int(136) 
-    //               ["created_at"]=> NULL 
-    //               ["updated_at"]=> NULL } } 
-    //     ["escapeWhenCastingToString":protected]=> bool(false) } 
-
-
-    // [1] => object(Illuminate\Support\Collection) (2) { 
-    //     ["items":protected]=> array(1) { 
-    //         [0]=> object(stdClass) (6) { 
-    //             ["id"]=> int(36) 
-    //             ["name"]=> string(6) "Tetris" 
-    //             ["path"]=> string(21) "/storage/games/Tetris" 
-    //             ["creator"]=> string(13) "Game Platform" 
-    //             ["created_at"]=> NULL 
-    //             ["updated_at"]=> NULL } } 
-    //     ["escapeWhenCastingToString":protected]=> bool(false) } 
-
-
-
-    
+ 

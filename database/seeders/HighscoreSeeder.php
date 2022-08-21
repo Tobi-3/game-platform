@@ -15,7 +15,6 @@ class HighscoreSeeder extends Seeder
      */
     public function run()
     {
-        //
         
         for ($i=0; $i < 20; $i++) {
             DB::table('highscores')->upsert([

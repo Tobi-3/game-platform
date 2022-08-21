@@ -21,9 +21,9 @@
                         </x-button>
                     </form>
                 </div>             
-                
             </div>
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">  
                 <div class=" p-6 bg-white border-b border-gray-200">
                     <form class="flex justify-between" action="{{ route('admin.delete.profile')}}" method="post">
                         @csrf
@@ -36,40 +36,59 @@
                             {{ __('Delete User') }}
                         </x-button>
                     </form>
+                </div>             
+            </div>
+
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                
+                <div class=" px-6 pt-6 bg-white  border-gray-200">
+                    <div class="font-semibold text-xl text-gray-800 leading-tight">{{__('Users')}}</div>    
                 </div>
 
                 <div class=" p-6 bg-white border-b border-gray-200">
-                    <div>Users</div>    
-                    <ul>
-                        @foreach ($usernames as $user)
-                            <li> {{ $user->username }}</li>    
-                        @endforeach
-                    </ul>    
+                    <div >
+                        <ul>
+                            @foreach ($usernames as $user)
+                                <li> {{ $user->username }}</li>    
+                            @endforeach
+                        </ul>    
+                    </div>
                 </div>
+            </div>
                 
-                <div class=" p-6 bg-white border-b border-gray-200">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class=" p-6 bg-white  border-gray-200">
                     <form class="flex justify-between" action="{{ route('admin.delete.game')}}" method="post">
                         @csrf
                         
-                         <div>
+                        <div>
                             <x-input id="game" placeholder="game name" class="block mt-1 w-full" type="text" name="game" :value="old('game')" required autofocus />
                         </div>
-                     
+                    
                         <x-button >
                             {{ __('Delete Game') }}
                         </x-button>
                     </form>
+
                 </div>
 
-                <div class=" p-6 bg-white border-b border-gray-200">
-                    <div>Games</div >    
-                    <ul>
-                        @foreach ($games as $game)
-                        <li> {{ $game->name }}</li>    
-                        @endforeach
-                    </ul>
+                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class=" px-6">
+                        <div class="font-semibold text-xl text-gray-800 leading-tight">{{__('Games')}}</div>    
+                    </div>
+
+                    <div class=" p-6">
+                        <div >
+                            <ul>
+                            @foreach ($games as $game)
+                                <li> {{ $game->name }}</li>    
+                            @endforeach
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
+            
         </div>
     </div>
 </x-admin-layout>

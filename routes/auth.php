@@ -35,9 +35,16 @@ Route::middleware('guest')->group(function () {
 
     Route::post('reset-password', [NewPasswordController::class, 'store'])
                 ->name('password.update');
+
+    
 });
 
 Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', [GameController::class, 'gameNames'])
+           ->withoutMiddleware('auth')
+           
+           ->name('dashboard');
+
     Route::get('verify-email', [EmailVerificationPromptController::class, '__invoke'])
                 ->name('verification.notice');
 
@@ -58,7 +65,8 @@ Route::middleware('auth')->group(function () {
                 ->name('logout');
                 
     Route::get('user-profile', [UserProfile::class, 'getDataForProfile'])
-                ->name('user.profile');
+           ->middleware('verified')
+           ->name('user.profile');
 
     Route::post('change-picture', [UserProfile::class, 'changePicture'])
                  ->name('change.picture');

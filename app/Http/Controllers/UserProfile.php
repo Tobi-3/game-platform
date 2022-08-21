@@ -13,14 +13,14 @@ use Illuminate\Validation\Rules;
 
 class UserProfile extends Controller
 {
-    //
+    /** gets all user data and passes it to the profile view of a user */
     public function getDataForProfile()
     {   
         //get rank of current user for all games played
         $game_ranks = DB::select(
                         'SELECT * FROM
                             (SELECT username, game, score, rank() 
-                                OVER (PARTITION BY game ORDER BY score) as rank 
+                                OVER (PARTITION BY game ORDER BY score DESC) as rank 
                             FROM highscores) as rankings
                         WHERE username = ?', [ Auth::user()->username ]
         );
@@ -34,12 +34,12 @@ class UserProfile extends Controller
             'game_ranks'=> $game_ranks ]);
     }
 
-    // upload and set new profile picture 
+    /** upload and set new profile picture */ 
     public function changePicture(Request $request)
-    {   //TODO: set maximum size for image
+    {   
         $request->validate([
             // 'picture' => 'required'
-            'picture' => 'required|image|mimes:jpg,jpeg,png,svg'
+            'picture' => 'required|image|mimes:jpg,jpeg,png,svg|max:15360'
         ]);
 
 
@@ -55,14 +55,15 @@ class UserProfile extends Controller
     }
 
 
-    // deletes user profile and all  related data
+    /** delete user profile and all related data */ 
     public function deleteProfile()
     {   
         $user = Auth::user();
 
-        // delete picture first (if not default avatar)
-       if (!$user->picture === '/storage/avatars/default250.svg') {
-            Storage::delete(Str::replaceFirst('storage', 'public', $user->picture));
+        // delete picture (if not the default)
+       if ($user->picture !== '/storage/avatars/default250.svg') {
+            $path = Str::replaceFirst('storage', 'public', $user->picture);
+            Storage::delete($path);
        }
 
         //delete user data from databases 
@@ -71,7 +72,7 @@ class UserProfile extends Controller
         return redirect('login')->with('message', 'deleted profile successfully');
     }
 
-    // changes password of usser
+    /** change password of usser */ 
     public function changePassword(Request $request)
     {
         $request->validate([
@@ -85,14 +86,13 @@ class UserProfile extends Controller
         return redirect('user-profile')->with('message', 'changed password succesfully');
     }
 
-    //changes username
+    /** change user name */
     public function changeUserName(Request $request)
     {   
         $request->validate([
             'new_username' => ['required', 'confirmed', 'max:30']
         ]);
 
-        // $user = Auth::user();
         DB::table('users')->where('id', $request->user()->id)
           ->update(['username' => $request->new_username]);
         

@@ -40,7 +40,7 @@
                 <div class="py-12 flex justify-around">
 
                     <div class="flex justify-around">
-                        <div ><div id="score" name= score class="p-6 bg-white overflow-hidden shadow-sm sm:rounded-lg">{{__('Score:')}}</div>
+                        <div ><div id="score" name= score class="p-6 bg-white overflow-hidden shadow-sm sm:rounded-lg">{{__('Score')}}</div>
     
                     </div>
 
@@ -56,9 +56,9 @@
                                 </tr>
                                 @foreach ($highscores as $i => $highscore)
                                     <tr>
-                                        <td>{{$i + 1}}</td>
+                                        <td>{{$i + 1}}.</td>
                                         <td>{{$highscore->username}}</td>
-                                        <td>{{$highscore->score}}</td>
+                                        <td style="color: rgb(0, 102, 255)">{{$highscore->score}}</td>
                                     </tr>
                                 @endforeach
                             </table>
@@ -67,67 +67,76 @@
                 </div>
                     </div>
               
+            
+        
+        
+               {{-- jquery --}}
+               <script>
+                    $(document).ready(function(){
+
+                        $('#myFrame').on('load', function() {
+                            var iFrameContent = document.getElementById("myFrame").contentWindow.document;
+                            var iFrameCanvas = iFrameContent.getElementById('canvas');
+                            var iFrameScore =  iFrameContent.getElementById("score");
+                        
+                            var points = document.getElementById('score');
+                            
+                            iFrameScore.addEventListener('DOMSubtreeModified', function () {
+                                points.innerHTML = iFrameScore.innerHTML;
+                            });
+                    
+                        })
+                    }); 
+                </script>
+            @auth
+                @if (Auth::user()->hasVerifiedEmail())
+                    <script>
+                    $(document).ready(function(){          
+                        $('#myFrame').on('load', function () {
+                            var iFrameContent = document.getElementById("myFrame").contentWindow.document;
+                            var iFrameCanvas = iFrameContent.getElementById('canvas');
+                            var iFrameScore =  iFrameContent.getElementById("score");
+                            var points = document.getElementById('score');
+                        
+                            var gameOverDiv = iFrameContent.getElementById('gameOver');          
+                            gameOverDiv.addEventListener('DOMSubtreeModified', function () {
+                                if (this.innerHTML == 'true') {
+                                    //update highscore
+                                    $.ajaxSetup({
+                                        headers: {
+                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                        }
+                                    });
+                                        
+                                    $.ajax({
+                                        url: '/update-highscore',
+                                        type: "post",
+                                        data: {'score': points.innerHTML, 'game': "{{$game->name}}" },
+                                        dataType: 'JSON',
+                                        success: function (data) {
+                                        console.log("brudi:"); // this is good
+                                        console.log(data); // this is good
+                                        }
+                                    });
+                                }               
+                            });
+                        })
+                    }); 
+                </script>
+                @else
+                
+                    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                        <div class="flex justify-center p-4 bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                            
+                            <a class="underline" href="{{route('user.profile')}}">verify your email</a> &nbsp; {{ __('to save your score')}}
+                        </div>
+                    </div>
+                
+                @endif
+            @else
+            @endauth
             </main>
         </div>
-    {{-- jquery --}}
-       
-            <script>
-                $(document).ready(function(){
-
-                    $('#myFrame').on('load', function() {
-                        var iFrameContent = document.getElementById("myFrame").contentWindow.document;
-                        var iFrameCanvas = iFrameContent.getElementById('canvas');
-                        var iFrameScore =  iFrameContent.getElementById("score");
-                    
-                        var points = document.getElementById('score');
-                        
-                        iFrameScore.addEventListener('DOMSubtreeModified', function () {
-                            points.innerHTML = iFrameScore.innerHTML;
-                        });
-                
-                    })
-                }); 
-            </script>
-        @auth
-            <script>
-                $(document).ready(function(){          
-                    $('#myFrame').on('load', function () {
-                        var iFrameContent = document.getElementById("myFrame").contentWindow.document;
-                        var iFrameCanvas = iFrameContent.getElementById('canvas');
-                        var iFrameScore =  iFrameContent.getElementById("score");
-                        var points = document.getElementById('score');
-                    
-                        var gameOverDiv = iFrameContent.getElementById('gameOver');          
-                        gameOverDiv.addEventListener('DOMSubtreeModified', function () {
-                            if (this.innerHTML == 'true') {
-                                //update highscore
-                                $.ajaxSetup({
-                                    headers: {
-                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                    }
-                                });
-                                    
-                                console.log(parseInt($('#score').get()[0].innerHTML));
-                                console.log(points.innerHTML);
-                                console.log(iFrameScore.innerHTML);
-
-                                $.ajax({
-                                    url: '/update-highscore',
-                                    type: "post",
-                                    data: {'score': points.innerHTML, 'game': "{{$game->name}}" },
-                                    dataType: 'JSON',
-                                    success: function (data) {
-                                    console.log("brudi:"); // this is good
-                                    console.log(data); // this is good
-                                    }
-                                });
-                            }               
-                        });
-                    })
-                }); 
-            </script>
-        @else
-        @endauth
     </body>
 </html>
 

@@ -17,10 +17,10 @@ class AdminSeeder extends Seeder
      */
     public function run()
     {
-        //
+        // create an admin 
         DB::table('admins')->insert([
             'name' => 'admin',
-            'email' => 'tobias.awotula@student.uni-tuebingen.de',
+            'email' => 'tobias.awotula@uni-tuebingen.de',
             'password' => Hash::make('password'),
         ]);
     }
